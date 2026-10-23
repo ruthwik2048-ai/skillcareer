@@ -1,0 +1,18 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Apply for {{ job.title }} · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'job-list' %}">← Back to jobs</a>
+<p class="eyebrow">{{ job.company }}{% if job.location %} · {{ job.location }}{% endif %}</p>
+<h1>Apply for {{ job.title }}</h1>
+<p class="page-intro">{{ job.description|linebreaksbr }}</p>
+<section class="card form-card">
+    <p class="security-notice">Upload a PDF resume (maximum 5 MB). Your application and resume are visible only to you and administrators.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit application</button>
+    </form>
+</section>
+{% endblock %}

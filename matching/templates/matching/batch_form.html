@@ -1,0 +1,17 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Edit {{ batch.name }} · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'learning-batches' %}">← Back to batches</a>
+<p class="eyebrow">Manage learning group</p>
+<h1>Edit {{ batch.name }}</h1>
+<p class="page-intro">Update the batch name and choose which students belong to this group.</p>
+<section class="card form-card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save batch changes</button>
+    </form>
+</section>
+{% endblock %}

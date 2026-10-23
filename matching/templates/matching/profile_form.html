@@ -1,0 +1,17 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Update {{ student.name }} · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'student-list' %}">← Back to students</a>
+<p class="eyebrow">Keep your profile up to date</p>
+<h1>Update {{ student.name }}'s profile</h1>
+<p class="page-intro">Update the roll number, contact information, and skills. Career ideas update from the skills you can teach.</p>
+<section class="card form-card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "matching/base.html" %}
+{% load static %}
+
+{% block title %}Students · SkillCareer{% endblock %}
+
+{% block content %}
+<section class="hero" id="exchange">
+    <div class="hero-content">
+        <p class="eyebrow">A community powered by skill swaps</p>
+        <h1>Learn from peers. Share what you know.</h1>
+        <p class="page-intro">SkillCareer turns the skills in your community into two-way learning: find someone who can teach you, and help someone else grow with what you can teach.</p>
+        <a class="button join-button" href="{% url 'register-student' %}">Join the community <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="exchange-card" aria-label="How a SkillCareer exchange works">
+        <p class="exchange-kicker">THE SKILLCAREER EXCHANGE</p>
+        <div class="exchange-person">
+            <span class="exchange-icon" aria-hidden="true">01</span>
+            <span><strong>You teach</strong><small>A skill you already know</small></span>
+        </div>
+        <div class="exchange-arrow" aria-hidden="true">↕</div>
+        <div class="exchange-person exchange-person-other">
+            <span class="exchange-icon" aria-hidden="true">02</span>
+            <span><strong>You learn</strong><small>A skill you want to grow</small></span>
+        </div>
+        <p class="exchange-caption">Everyone has something to share—and something new to learn.</p>
+    </div>
+</section>
+
+<section class="difference" id="difference" aria-labelledby="difference-heading">
+    <div class="difference-heading">
+        <p class="eyebrow">What makes us different</p>
+        <h2 id="difference-heading">Learning goes both ways.</h2>
+        <p>Instead of just browsing courses, discover people whose teach-and-learn goals complement yours.</p>
+    </div>
+    <div class="difference-steps">
+        <article class="difference-step">
+            <span class="step-number">01 / OFFER</span>
+            <h3>Share your skills</h3>
+            <p>Show the community what you’re ready to teach.</p>
+        </article>
+        <article class="difference-step">
+            <span class="step-number">02 / MATCH</span>
+            <h3>Find your people</h3>
+            <p>See who can teach what you want to learn—and who wants to learn from you.</p>
+        </article>
+        <article class="difference-step">
+            <span class="step-number">03 / GROW</span>
+            <h3>Learn together</h3>
+            <p>Turn shared interests into peer-to-peer learning and career inspiration.</p>
+        </article>
+    </div>
+</section>
+
+<section class="community-section" aria-labelledby="community-heading">
+    <h2 class="section-heading" id="community-heading">Meet the community</h2>
+
+    <article class="community-admin">
+        <img
+            class="community-admin-mark"
+            src="{% static 'matching/logo.svg' %}"
+            alt="SkillCareer logo"
+        >
+        <div>
+            <span class="community-admin-label">Community admin</span>
+            <h3>Skill-Career</h3>
+            <p class="community-admin-caption">Tech-Skills to Tech-Career</p>
+        </div>
+    </article>
+
+    {% for student in students %}
+        <section class="card student-card">
+            <div class="card-top">
+                <div class="student-identity">
+                    <span class="student-avatar" aria-hidden="true">
+                        <span class="student-avatar-letter">{{ student.name|first|upper }}</span>
+                    </span>
+                    <div class="student-details">
+                        <span class="community-member-label">Community student</span>
+                        <h2>{{ student.name }}</h2>
+                        <p class="email"><a href="mailto:{{ student.email }}">{{ student.email }}</a></p>
+                        <p class="student-roll-number">Roll number: {{ student.roll_number }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="student-skill-grid">
+                <div class="skill-row skill-panel">
+                    <span class="skill-label">
+                        <svg class="skill-label-icon skill-label-icon-teach" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M12 7.5C9.8 5.8 6.5 5.5 3.5 6.5v11c3-1 6.3-.7 8.5 1m0-11c2.2-1.7 5.5-2 8.5-1v11c-3-1-6.3-.7-8.5 1m0-11v11" />
+                            <path d="M6.5 9.5c1.4-.3 2.8-.1 4 .5m7 0c-1.4-.3-2.8-.1-4 .5" />
+                        </svg>
+                        Ready to teach
+                    </span>
+                    <div class="skill-list">
+                        {% for skill in student.teach_skills %}
+                            <span class="skill">{{ skill }}</span>
+                        {% empty %}
+                            <span class="skill">Not specified</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="skill-row skill-panel skill-panel-learn">
+                    <span class="skill-label">
+                        <svg class="skill-label-icon skill-label-icon-learn" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M8.5 14.5a6 6 0 1 1 7 0c-.9.6-1.5 1.4-1.7 2.5h-3.6c-.2-1.1-.8-1.9-1.7-2.5Z" />
+                            <path d="M10 20h4m-3.5-3h3M12 1.5v2m8 2-1.4 1.4M4 5.5l1.4 1.4M20.5 12h-2M5.5 12h-2" />
+                        </svg>
+                        Excited to learn
+                    </span>
+                    <div class="skill-list">
+                        {% for skill in student.learn_skills %}
+                            <span class="skill skill-learn">{{ skill }}</span>
+                        {% empty %}
+                            <span class="skill skill-learn">Not specified</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <span class="skill-exchange-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M7 7h12l-3-3m3 3-3 3M17 17H5l3 3m-3-3 3-3" />
+                    </svg>
+                </span>
+            </div>
+            <div class="skill-row">
+                <span class="skill-label">Career ideas based on skills you can teach</span>
+                {% if student.recommended_jobs %}
+                    <div class="career-ideas">
+                        {% for role in student.recommended_jobs %}
+                            <div class="career-idea">
+                                <strong>{{ role.title }}</strong>
+                                <p>{{ role.description }}</p>
+                                <span class="skill-label">Matching skills: {{ role.matched_skills|join:", " }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="career-empty">Add recognized skills you can teach to see career ideas.</p>
+                {% endif %}
+            </div>
+            <nav class="student-actions" aria-label="Actions for {{ student.name }}">
+                <a class="student-action student-action-compact" href="{% url 'student-matches' student.id %}">Find skill matches <span aria-hidden="true">→</span></a>
+                <a class="student-action student-action-compact" href="{% url 'update-student' student.id %}">Update student</a>
+                <a class="student-action student-action-compact student-action-apply" href="{% url 'student-jobs' student.id %}">Apply for jobs</a>
+                <a class="student-action student-action-compact student-action-danger" href="{% url 'delete-student' student.id %}">Delete student</a>
+            </nav>
+        </section>
+    {% empty %}
+        <div class="empty-state">
+            <h2>The community is just getting started</h2>
+            <p class="page-intro">An administrator can add student profiles through Django admin.</p>
+            <a class="button" href="{% url 'register-student' %}">Request to join <span aria-hidden="true">→</span></a>
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}

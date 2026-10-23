@@ -1,0 +1,45 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Matches for {{ student.name }} · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'student-list' %}">← Back to students</a>
+<p class="eyebrow">Connections made for you</p>
+<h1>Skill matches for {{ student.name }}</h1>
+<p class="page-intro">Here are people whose skills and learning goals overlap with yours.</p>
+
+{% for match in matches %}
+    <section class="card">
+        <div class="card-top">
+            <div>
+                <h2>{{ match.student.name }}</h2>
+                <p class="email"><a href="mailto:{{ match.student.email }}">{{ match.student.email }}</a></p>
+            </div>
+            <span class="match-score">{{ match.percentage|floatformat:2 }}% match</span>
+        </div>
+        {% if match.can_teach %}
+            <div class="skill-row">
+                <span class="skill-label">You can teach them</span>
+                <div class="skill-list">
+                    {% for skill in match.can_teach %}<span class="skill">{{ skill }}</span>{% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if match.can_learn %}
+            <div class="skill-row">
+                <span class="skill-label">They can teach you</span>
+                <div class="skill-list">
+                    {% for skill in match.can_learn %}<span class="skill skill-learn">{{ skill }}</span>{% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% empty %}
+    <div class="empty-state">
+        <h2>Your next match is out there</h2>
+        <p class="page-intro">No matches yet. Check back as more people add their skills to the community.</p>
+        <a class="button" href="{% url 'student-list' %}">Explore students</a>
+    </div>
+{% endfor %}
+
+{% endblock %}

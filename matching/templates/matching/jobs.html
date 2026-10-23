@@ -1,0 +1,55 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Jobs · SkillCareer{% endblock %}
+
+{% block content %}
+<p class="eyebrow">Put your skills to work</p>
+<h1>Job opportunities</h1>
+{% if show_matching_jobs %}
+    <p class="page-intro">Open jobs matching {{ skill_profile.name }}’s skills you can teach.</p>
+{% else %}
+<p class="page-intro">Browse current openings and apply with your resume. Sign in with the student account linked to your profile to apply.</p>
+{% endif %}
+
+{% for job in jobs %}
+    <section class="card">
+        <div class="card-top">
+            <div>
+                <h2>{{ job.title }}</h2>
+                <p class="email">{{ job.company }}{% if job.location %} · {{ job.location }}{% endif %}</p>
+            </div>
+            {% if job.application_deadline %}
+                <span class="match-score">Apply by {{ job.application_deadline|date:"M j, Y" }}</span>
+            {% endif %}
+        </div>
+        <p>{{ job.description|linebreaksbr }}</p>
+        {% if job.required_skill_list %}
+            <div class="skill-row">
+                <span class="skill-label">Skills</span>
+                <div class="skill-list">
+                    {% for skill in job.required_skill_list %}
+                        <span class="skill{% if skill in job.matched_skills %} skill-learn{% endif %}">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if job.already_applied %}
+            <span class="application-status">Application submitted</span>
+        {% elif request.user.is_authenticated and not student %}
+            <span class="application-status">Ask an administrator to link your account to a student profile.</span>
+        {% else %}
+            <a class="button" href="{% url 'apply-for-job' job.id %}">Apply for this job</a>
+        {% endif %}
+    </section>
+{% empty %}
+    <div class="empty-state">
+        {% if show_matching_jobs %}
+            <h2>No matching jobs right now</h2>
+            <p class="page-intro">There are no open jobs matching {{ skill_profile.name }}’s skills. Check back later for new opportunities.</p>
+        {% else %}
+            <h2>No open jobs right now</h2>
+            <p class="page-intro">Check back later for new opportunities.</p>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

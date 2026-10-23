@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | SkillCareer administration{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'matching/admin.css' %}?v=31">
+{% endblock %}
+
+{% block branding %}
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+      <img class="admin-brand-logo" src="{% static 'matching/logo.svg' %}" alt="">
+      SkillCareer
+    </a>
+  </h1>
+  <p class="admin-contact">
+    <span class="admin-contact-item"><a href="tel:+916309471352" aria-label="Call +91 6309471352"><span class="admin-contact-label" aria-hidden="true">&#9742;</span> 6309471352</a></span>
+    <span class="admin-contact-separator" aria-hidden="true">|</span>
+    <span class="admin-contact-item"><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=theskillcareer.hub%40gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email theskillcareer.hub@gmail.com"><span class="admin-contact-label" aria-hidden="true">&#9993;</span> theskillcareer.hub@gmail.com</a></span>
+  </p>
+{% endblock %}
+
+{% block extrabody %}
+  {{ block.super }}
+  <script src="{% static 'matching/admin.js' %}" defer></script>
+{% endblock %}

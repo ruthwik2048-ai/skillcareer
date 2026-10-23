@@ -1,0 +1,33 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Join the community · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'student-list' %}">← Back to students</a>
+{% if submitted %}
+    <section class="empty-state">
+        <p class="eyebrow">Request received</p>
+        <h1>Your request is awaiting admin approval</h1>
+        <p class="page-intro">An administrator will review your details. Your student profile will be added to the community after approval.</p>
+        <a class="button" href="{% url 'student-list' %}">Back to the community</a>
+    </section>
+{% else %}
+    <p class="eyebrow">Join SkillCareer</p>
+    <h1>Request to join the community</h1>
+    <p class="page-intro">Submit your profile details for an administrator to review. Your profile will appear after it is approved.</p>
+    <section class="card form-card join-form-card">
+        <div class="join-form-heading">
+            <span class="join-form-step" aria-hidden="true">01</span>
+            <div>
+                <h2>Your community profile</h2>
+                <p>Tell us what you can share and what you would like to learn.</p>
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="join-submit" type="submit">Send registration request <span aria-hidden="true">→</span></button>
+        </form>
+    </section>
+{% endif %}
+{% endblock %}

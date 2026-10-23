@@ -1,0 +1,22 @@
+{% extends "matching/base.html" %}
+{% load static %}
+
+{% block title %}Student login · SkillCareer{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'job-list' %}">← Back to jobs</a>
+<p class="eyebrow">Your private job dashboard</p>
+<h1>Student login</h1>
+<p class="page-intro">Use your roll number as the username and the initial six-digit password provided by your administrator. Username matching ignores letter case. If you have not received your login details, contact an administrator.</p>
+<section class="card form-card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="login-actions">
+            <button type="submit">Sign in</button>
+            <button class="login-clear" type="reset">Clear</button>
+        </div>
+    </form>
+</section>
+<script src="{% static 'matching/password_toggle.js' %}" defer></script>
+{% endblock %}

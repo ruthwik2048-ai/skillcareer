@@ -1,0 +1,33 @@
+{% extends "matching/base.html" %}
+
+{% block title %}My job applications · SkillCareer{% endblock %}
+
+{% block content %}
+<p class="eyebrow">Student dashboard</p>
+<h1>Welcome, {{ student.name }}</h1>
+<p class="page-intro">Track your applications and their latest status here.</p>
+<section class="card">
+    <h2>My applications <span class="match-score">{{ applications|length }}</span></h2>
+</section>
+{% for application in applications %}
+    <section class="card">
+        <div class="card-top">
+            <div>
+                <h2>{{ application.job.title }}</h2>
+                <p class="email">{{ application.job.company }} · Applied {{ application.applied_at|date:"M j, Y" }}</p>
+            </div>
+            <span class="application-status application-status-{{ application.status }}">{{ application.get_status_display }}</span>
+        </div>
+        {% if application.cover_note %}
+            <p>{{ application.cover_note|linebreaksbr }}</p>
+        {% endif %}
+        <a class="student-action student-action-compact" href="{% url 'download-application-resume' application.id %}">Download my resume</a>
+    </section>
+{% empty %}
+    <div class="empty-state">
+        <h2>You haven’t applied yet</h2>
+        <p class="page-intro">Explore open roles that fit your skills and submit your first application.</p>
+        <a class="button" href="{% url 'job-list' %}">Browse jobs</a>
+    </div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "matching/base.html" %}
+
+{% block title %}Delete student · SkillCareer{% endblock %}
+
+{% block content %}
+<section class="card form-card">
+    <p class="eyebrow">Remove a community profile</p>
+    <h1>Delete {{ student.name }}?</h1>
+    <p class="page-intro">
+        This permanently deletes {{ student.name }}'s student profile. Any learning
+        batches created by this student will also be deleted.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="button-danger" type="submit">Delete student</button>
+        <a class="card-action" href="{% url 'student-list' %}">Cancel</a>
+    </form>
+</section>
+{% endblock %}
